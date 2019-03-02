@@ -1,7 +1,7 @@
 #!/bin/bash
 
-GIT_DIR=/scratch/groups/akundaje/soumyak/atac-seq-pipeline
-CROMWELL_JAR=/scratch/groups/akundaje/soumyak/cromwell-34.jar
+GIT_DIR=/home/users/annashch/atac-seq-pipeline
+CROMWELL_JAR=/home/users/annashch/cromwell-34.jar
 
 # do not touch these settings
 #  number of tasks and nodes are fixed at 1
