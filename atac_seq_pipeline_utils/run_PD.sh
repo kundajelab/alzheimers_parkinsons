@@ -4,7 +4,7 @@ RUN_ROOT=$PROJECT_ROOT/outputs_PD
 LOG_DIR=$RUN_ROOT/logs
 mkdir -p $LOG_DIR
 
-SH_SCRIPT=/scratch/groups/akundaje/annashch/testing/template_submission.sh
+SH_SCRIPT=/scratch/groups/akundaje/annashch/alzheimers_parkinsons/atac_seq_pipeline_utils/template_submission.sh
 
 for type in $PROJECT_ROOT/PD/*; do
     for region in  $type/*; do
@@ -18,7 +18,7 @@ for type in $PROJECT_ROOT/PD/*; do
 	    ln -s $file
 	    sbatch --partition akundaje --mem=30G \
 		-o $LOG_DIR/$prefix.o -e $LOG_DIR/$prefix.e \
-		-n 1 --ntasks-per-node=1 --partition akundaje,owners,normal --job-name=PD_ATAC --time=24:00:00 --cpus-per-task=2 --mail-type=END,FAIL \
+		-n 1 --ntasks-per-node=1 --partition akundaje,euan,owners,normal --job-name=PD_ATAC --time=24:00:00 --cpus-per-task=2 \
 		$SH_SCRIPT $file
         done
     done
