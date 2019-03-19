@@ -8,6 +8,7 @@ SH_SCRIPT=/scratch/groups/akundaje/annashch/alzheimers_parkinsons/atac_seq_pipel
 TO_RERUN=to_rerun_AD.txt
 for file in `cat $TO_RERUN`; do
     prefix=$(basename $file .json)
+    echo $prefix
     region_folder=$(dirname $file) 
     region=$(basename $region_folder) 
     type_folder=$(dirname $region_folder) 
@@ -15,7 +16,7 @@ for file in `cat $TO_RERUN`; do
     WORK_DIR=$RUN_ROOT/$type/$region/$prefix
     echo $WORK_DIR
     cd $WORK_DIR
-    sbatch --partition akundaje,euan --mem=30G \
+    sbatch --partition akundaje,euan --mem=50G \
 	-o $LOG_DIR/$prefix.o -e $LOG_DIR/$prefix.e \
 	-n 1 --ntasks-per-node=1  --job-name=$file --time=24:00:00 --cpus-per-task=2 \
 	$SH_SCRIPT $file

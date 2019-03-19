@@ -1,6 +1,6 @@
 prefix="/oak/stanford/groups/akundaje/projects/alzheimers_parkinsons" 
 json_list=prefix+"/jsons" 
-narrowPeak_list=prefix+"/narrowPeakFiles.txt"
+narrowPeak_list=prefix+"/narrowPeakFiles.2.txt"
 processed_samples=set() 
 samples=set() 
 for entry in open(narrowPeak_list,'r').read().strip().split('\n'): 

@@ -15,7 +15,7 @@ for file in `cat $TO_RERUN`; do
     WORK_DIR=$RUN_ROOT/$type/$region/$prefix
     echo $WORK_DIR
     cd $WORK_DIR
-    sbatch --partition akundaje,euan --mem=30G \
+    sbatch --partition akundaje,euan --mem=50G \
 	-o $LOG_DIR/$prefix.o -e $LOG_DIR/$prefix.e \
 	-n 1 --ntasks-per-node=1  --job-name=$file --time=24:00:00 --cpus-per-task=2 \
 	$SH_SCRIPT $file
