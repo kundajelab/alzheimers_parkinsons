@@ -5,8 +5,7 @@ LOG_DIR=$RUN_ROOT/logs
 mkdir -p $LOG_DIR
 
 SH_SCRIPT=/scratch/groups/akundaje/annashch/alzheimers_parkinsons/atac_seq_pipeline_utils/template_submission.sh
-#TO_RERUN=resumer_files.txt
-TO_RERUN=test
+TO_RERUN=resumer_files.txt
 for file in `cat $TO_RERUN`; do
     WORK_DIR=$(dirname $file) 
     prefix=$(basename $WORK_DIR) 
