@@ -37,7 +37,7 @@ def main():
     outf=open(args.outf,'w') 
     categories=['overlap_reproducibility_qc','idr_reproducibility_qc']
     metrics=['Nt','N1','N2','Np','N_opt','N_consv','opt_set','consv_set','rescue_ratio','self_consistency_ratio','reproducibility']
-    outf.write('\t'.join(["PD/AD","Region","Condition","Sample","ATAQC_Report","FRiP_rep1","FRiP_rep2","FRiP_overlap","FRiP_idr"]))
+    outf.write('\t'.join(["PD/AD","Region","Condition","Sample","ATAQC_Report","PairedReads_rep1","PairedReads_rep2","FRiP_rep1","FRiP_rep2","FRiP_overlap","FRiP_idr"]))
     for category in categories: 
         for metric in metrics: 
             outf.write('\t'+'_'.join([metric,category]))
@@ -62,10 +62,20 @@ def main():
         except: 
             print("could not load:"+str(f))
             continue 
+        #get the read counts 
+        try: 
+            reads_rep1=data['dup_qc']['rep1']['paired_reads'] 
+        except: 
+            reads_rep1=None 
+        try: 
+            reads_rep2=data['dup_qc']['rep2']['paired_reads'] 
+        except: 
+            reads_rep2=None 
+        
         frip_metrics=get_frip(data)
         idr_reproducibility_qc=data['idr_reproducibility_qc'] 
         overlap_reproducibility_qc=data['overlap_reproducibility_qc'] 
-        outf.write('\t'.join([dataset,region,condition,sample_id,mitra_file_path,frip_metrics]))
+        outf.write('\t'.join([dataset,region,condition,sample_id,mitra_file_path,str(reads_rep1),str(reads_rep2),frip_metrics]))
         for metric in metrics: 
             try:
                 outf.write("\t"+str(overlap_reproducibility_qc[metric]))
