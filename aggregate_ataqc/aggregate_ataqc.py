@@ -10,13 +10,34 @@ def parse_args():
     parser.add_argument("--prefix_to_drop_for_oak",default="/oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/")
     return parser.parse_args() 
 
+def get_frip(json_dict): 
+    frip_macs2_qc=json_dict['frip_macs2_qc'] 
+    frip_macs2_rep2=None 
+    try: 
+        frip_macs2_rep1=frip_macs2_qc['rep1']['FRiP'] 
+    except: 
+        frip_macs2_rep1=None 
+    
+    try: 
+        frip_macs2_rep2=frip_macs2_qc['rep2']['FRiP'] 
+    except: 
+        frip_macs2_rep2=None 
+    overlap_frip_qc=json_dict['overlap_frip_qc']
+    idr_frip_qc=json_dict['idr_frip_qc'] 
+    for key in overlap_frip_qc: 
+        overlap_frip=overlap_frip_qc[key]['FRiP']
+    for key in idr_frip_qc: 
+        idr_frip=idr_frip_qc[key]['FRiP']
+    out='\t'.join([str(i) for i in [frip_macs2_rep1,frip_macs2_rep2,overlap_frip,idr_frip]])
+    return out 
+
 def main(): 
     args=parse_args() 
     ataqc_files=open(args.ataqc_files,'r').read().strip().split('\n') 
     outf=open(args.outf,'w') 
     categories=['overlap_reproducibility_qc','idr_reproducibility_qc']
     metrics=['Nt','N1','N2','Np','N_opt','N_consv','opt_set','consv_set','rescue_ratio','self_consistency_ratio','reproducibility']
-    outf.write('\t'.join(["PD/AD","Region","Condition","Sample","ATAQC_Report"]))
+    outf.write('\t'.join(["PD/AD","Region","Condition","Sample","ATAQC_Report","FRiP_rep1","FRiP_rep2","FRiP_overlap","FRiP_idr"]))
     for category in categories: 
         for metric in metrics: 
             outf.write('\t'+'_'.join([metric,category]))
@@ -36,11 +57,15 @@ def main():
         region=tokens[8] 
         condition=tokens[9] 
         sample_id=tokens[10] 
-
-        data=json.load(open(f,'r')) 
+        try:
+            data=json.load(open(f,'r')) 
+        except: 
+            print("could not load:"+str(f))
+            continue 
+        frip_metrics=get_frip(data)
         idr_reproducibility_qc=data['idr_reproducibility_qc'] 
         overlap_reproducibility_qc=data['overlap_reproducibility_qc'] 
-        outf.write('\t'.join([dataset,region,condition,sample_id,mitra_file_path]))
+        outf.write('\t'.join([dataset,region,condition,sample_id,mitra_file_path,frip_metrics]))
         for metric in metrics: 
             try:
                 outf.write("\t"+str(overlap_reproducibility_qc[metric]))

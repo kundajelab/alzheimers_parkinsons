@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 GIT_DIR=/home/users/annashch/atac-seq-pipeline
 CROMWELL_JAR=/home/users/annashch/cromwell-34.jar
 
@@ -39,6 +39,7 @@ module load java
 
 # activate pipeline's Conda environment if Conda env exists
 source activate encode-atac-seq-pipeline
+which encode_macs2_signal_track_atac.py
 
 # use input JSON for a small test sample
 #  you make an input JSON for your own sample
