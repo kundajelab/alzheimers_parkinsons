@@ -45,3 +45,9 @@ p6=ggplot(data=data,
   ylab("N Bio Samples")+
   ggtitle("N1_idr_reproducibility_qc")
 
+
+#summarize the FRIPC metrics 
+
+#histogram of fripc metrics 
+
+#correlation plot of number of optimal overlap peaks vs the fripc metric score. 
