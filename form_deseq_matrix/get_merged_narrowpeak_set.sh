@@ -1,3 +1,4 @@
+#!/bin/bash
 #get a merged peak file                                                                                                                                                                                            
 rm naive_overlap.optimal_set.bed
 rm naive_overlap.optimal_set.sorted.bed
