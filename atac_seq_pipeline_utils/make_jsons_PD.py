@@ -19,10 +19,10 @@ def main(args):
             os.mkdir(adpd + cohort + sep + x + sep + y)
     for index, row in metadata.iterrows():
         if row['Cohort'] == cohort:
-            if '_'.join([row['NewName'].split('_')[3], row['NewName'].split('_')[4], row['PatientID']]) in techreps:
-                techreps['_'.join([row['NewName'].split('_')[3], row['NewName'].split('_')[4], row['PatientID']])].append(row['Bam'])
+            if '_'.join([row['NewName'].split('_')[3], row['NewName'].split('_')[4], str(row['NewName'].split('_')[1]), str(row['NewName'].split('_')[2])]) in techreps:
+                techreps['_'.join([row['NewName'].split('_')[3], row['NewName'].split('_')[4], str(row['NewName'].split('_')[1]), str(row['NewName'].split('_')[2])])].append(row['Bam'])
             else:
-                techreps['_'.join([row['NewName'].split('_')[3], row['NewName'].split('_')[4], row['PatientID']])] = [row['Bam']]
+                techreps['_'.join([row['NewName'].split('_')[3], row['NewName'].split('_')[4], str(row['NewName'].split('_')[1]), str(row['NewName'].split('_')[2])])] = [row['Bam']]
     for i in techreps:
         keysplit = i.split('_')
         with open(adpd + cohort + sep + keysplit[0] + sep + keysplit[1] + sep + i + '.json', 'w') as outfile:
