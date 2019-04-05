@@ -1,8 +1,8 @@
 #!/bin/bash
 #get a merged peak file                                                                                                                                                                                            
-rm naive_overlap.optimal_set.bed
-rm naive_overlap.optimal_set.sorted.bed
-rm naive_overlap.optimal_set.sorted.merged.bed
+#rm naive_overlap.optimal_set.bed
+#rm naive_overlap.optimal_set.sorted.bed
+#rm naive_overlap.optimal_set.sorted.merged.bed
 
 for peak_file in `cut -f2 narrowPeak.files.txt`
 do
