@@ -27,8 +27,9 @@ def main():
         cur_out_file=random.sample(out_file_indices,1)[0] 
         outfiles[cur_out_file].write(line)
     #close all the pseudorep output files 
-    for outfile in outfiles: 
-        outfiles.close() 
+    for i in range(len(outfiles)): 
+        outfiles[i].close() 
+
     
 if __name__=="__main__": 
     main() 
