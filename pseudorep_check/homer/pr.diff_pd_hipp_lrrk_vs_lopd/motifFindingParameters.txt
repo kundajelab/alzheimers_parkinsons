@@ -1,0 +1,1 @@
+cmd = pr.diff_pd_hipp_lrrk_vs_lopd.bed hg38 pr.diff_pd_hipp_lrrk_vs_lopd -bg background.idr.bed -p 30

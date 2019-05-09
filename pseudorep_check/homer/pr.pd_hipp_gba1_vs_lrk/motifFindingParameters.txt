@@ -1,0 +1,1 @@
+cmd = pr.pd_hipp_gba1_vs_lrk.bed hg38 pr.pd_hipp_gba1_vs_lrk -bg background.idr.bed -p 30
