@@ -10,8 +10,9 @@ def main():
     args=parse_args()
     diff_dict=dict() # chrom_start_end --> sample --> 1
     samples=list(args.limma_diff_peaks)
+    samples_stripped=[i.split('/')[-1].split('.')[0] for i in samples]
     outf=open(args.outf,'w')
-    outf.write("Chrom_Start_End"+'\t'.join(samples)+'\n')
+    outf.write("Chrom_Start_End"+'\t'+'\t'.join(samples_stripped)+'\n')
     for sample in samples:
         print(sample)
         try:
