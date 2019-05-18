@@ -1,0 +1,5 @@
+for script in merge_bam_AD_ADAD_CAUD.sh merge_bam_AD_ADAD_HIPP.sh merge_bam_AD_ADAD_PARL.sh merge_bam_AD_ADAD_SMTG.sh merge_bam_AD_CTRH_CAUD.sh merge_bam_AD_CTRH_HIPP.sh merge_bam_AD_CTRH_PARL.sh merge_bam_AD_CTRH_SMTG.sh merge_bam_AD_CTRL_CAUD.sh merge_bam_AD_CTRL_HIPP.sh merge_bam_AD_CTRL_PARL.sh merge_bam_AD_CTRL_SMTG.sh merge_bam_AD_LOAD_CAUD.sh merge_bam_AD_LOAD_HIPP.sh merge_bam_AD_LOAD_PARL.sh merge_bam_AD_LOAD_SMTG.sh merge_bam_PD_CTRL_CAUD.sh merge_bam_PD_CTRL_HIPP.sh merge_bam_PD_CTRL_MDFG.sh merge_bam_PD_CTRL_MDTG.sh merge_bam_PD_CTRL_PTMN.sh merge_bam_PD_CTRL_SUNI.sh merge_bam_PD_GBA1_CAUD.sh merge_bam_PD_GBA1_HIPP.sh merge_bam_PD_GBA1_MDFG.sh merge_bam_PD_GBA1_MDTG.sh merge_bam_PD_GBA1_PTMN.sh merge_bam_PD_GBA1_SUNI.sh merge_bam_PD_LOPD_CAUD.sh merge_bam_PD_LOPD_HIPP.sh merge_bam_PD_LOPD_MDFG.sh merge_bam_PD_LOPD_MDTG.sh merge_bam_PD_LOPD_PTMN.sh merge_bam_PD_LOPD_SUNI.sh merge_bam_PD_LRRK_CAUD.sh merge_bam_PD_LRRK_HIPP.sh merge_bam_PD_LRRK_MDFG.sh merge_bam_PD_LRRK_MDTG.sh merge_bam_PD_LRRK_PTMN.sh merge_bam_PD_LRRK_SUNI.sh
+do 
+    sbatch -p akundaje,euan,normal,owners -o logs/$script.o -e logs/$script.e -J $script --time=24:00:00 $script 
+done 
+
