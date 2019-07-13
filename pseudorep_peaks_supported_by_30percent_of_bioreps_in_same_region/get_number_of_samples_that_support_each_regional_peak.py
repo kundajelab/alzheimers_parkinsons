@@ -41,13 +41,18 @@ def main():
     sample_to_pseudorep_peaks=get_sample_to_pseudorep_peak_map(samples,pseudorep_idr_optimal_peaks)
     sample_to_biorep_peaks=get_sample_to_biorep_peak_map(samples,biorep_idr_optimal_peaks) 
     for sample in samples: 
+        print(sample)
         pseudorep_peaks=sample_to_pseudorep_peaks[sample] 
         support_histogram=dict() 
         for entry in pseudorep_peaks:
             support_histogram[tuple(entry[0:3])]=[0,entry] 
         for biorep_peaks in sample_to_biorep_peaks[sample]: 
             #intersect them 
-            intersection=pseudorep_peaks.intersect(biorep_peaks,u=True,f=0.4,F=0.4,e=True)
+            try:
+                intersection=pseudorep_peaks.intersect(biorep_peaks,u=True,f=0.4,F=0.4,e=True)
+            except:
+                print("could not intersect,skipping")
+                continue
             intersection=list(set([tuple(i[0:3]) for i in intersection]))
             print(str(len(intersection))+"/"+str(len(pseudorep_peaks)))
             for intersection_entry in intersection: 
