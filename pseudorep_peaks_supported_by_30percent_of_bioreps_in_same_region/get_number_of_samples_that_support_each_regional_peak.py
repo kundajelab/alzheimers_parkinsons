@@ -47,10 +47,11 @@ def main():
             support_histogram[tuple(entry[0:3])]=[0,entry] 
         for biorep_peaks in sample_to_biorep_peaks[sample]: 
             #intersect them 
-            intersection=pseudorep_peaks.intersect(biorep_peaks,u=True) 
+            intersection=pseudorep_peaks.intersect(biorep_peaks,u=True,f=0.4,F=0.4,e=True)
+            intersection=list(set([tuple(i[0:3]) for i in intersection]))
             print(str(len(intersection))+"/"+str(len(pseudorep_peaks)))
             for intersection_entry in intersection: 
-                support_histogram[tuple(intersection_entry[0:3])][0]+=1 
+                support_histogram[intersection_entry][0]+=1 
         outf=gzip.open(sample+args.out_suffix,'wt')
         outf_bad=gzip.open(sample+".unsupported"+args.out_suffix,'wt')
         min_support_count=args.thresh*len(sample_to_biorep_peaks[sample])
