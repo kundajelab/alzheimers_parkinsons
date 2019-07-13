@@ -70,7 +70,7 @@ def main():
             else: 
                 out_bad.append(str(support_histogram[entry][1]).rstrip('\n')+'\t'+str(cur_entry_support))
         outf.write('\n'.join(out_good))
-        outf_bad.write('\n'.join(out_bad))
+        outf_bad.write('\n'.join(out_bad)+'\n')
         outf.close() 
         outf_bad.close() 
 

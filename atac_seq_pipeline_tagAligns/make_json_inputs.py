@@ -30,6 +30,9 @@ def main():
         json_dict['atac.enable_idr']='true' 
         json_dict['atac.idr_thresh']=0.05 
         json_dict['atac.tas']=[row[1]]
+        json_dict['atac.chrsz']="/home/groups/cherry/encode/pipeline_genome_data/hg38/hg38.chrom.sizes"
+        #json_dict['atac.gensz']=3099922541
+        json_dict['atac.gensz']='hs'
 
         #dump to output file 
         out_string=json.dumps(json_dict, sort_keys=True, indent=4)
