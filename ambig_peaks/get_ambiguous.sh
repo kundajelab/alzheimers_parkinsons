@@ -9,7 +9,7 @@ do
     echo "a_file:$a_file"
     echo "b_file:$b_file" 
     bedtools intersect -v -a $a_file -b $b_file > $cur_sample.ambiguous.bed
-    bgzip $cur_sample.ambiguous.bed
+    gzip $cur_sample.ambiguous.bed
     echo $cur_sample.ambiguous.bed.gz 
 done
 
