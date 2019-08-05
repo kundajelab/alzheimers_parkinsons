@@ -28,7 +28,7 @@ def main():
         #create the input json dictionary for the current sample 
         json_dict={} 
         json_dict['atac.pipeline_type']='atac' 
-        json_dict['atac.genome.tsv']='/mnt/data/annotations/by_release/hg38_sherlock.tsv'
+        json_dict['atac.genome.tsv']='/mnt/data/annotations/by_release/hg38_klab.tsv'
         json_dict['atac.paired_end']='true' 
         json_dict['atac.enable_idr']='true' 
         json_dict['atac.idr_thresh']=0.05 
@@ -38,6 +38,16 @@ def main():
         json_dict['atac.xcor_cpu']=10
         json_dict['atac.blacklist']='/mnt/data/annotations/by_release/hg38/hg38.blacklist.bed.gz'
         json_dict['atac.fingerprint_cpu']=10
+        #for some reason, these need to be specified explicitly when starting pipeline w/ tagAlign:
+        json_dict['atac.ref_fa']="/mnt/data/pipeline_genome_data/hg38/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz"
+        json_dict['atac.tss']="/mnt/data/pipeline_genome_data/hg38/ataqc/hg38_gencode_tss_unique.bed.gz"
+        json_dict['atac.dnase']="/mnt/data/pipeline_genome_data/hg38/ataqc/reg2map_honeybadger2_dnase_all_p10_ucsc.hg19_to_hg38.bed.gz"
+        json_dict['atac.prom']="/mnt/data/pipeline_genome_data/hg38/ataqc/reg2map_honeybadger2_dnase_prom_p2.hg19_to_hg38.bed.gz"
+        json_dict['atac.enh']="/mnt/data/pipeline_genome_data/hg38/ataqc/reg2map_honeybadger2_dnase_enh_p2.hg19_to_hg38.bed.gz"
+        json_dict['atac.reg2map']="/mnt/data/pipeline_genome_data/hg38/ataqc/hg38_dnase_avg_fseq_signal_formatted.txt.gz"
+        json_dict['atac.reg2map_bed']="/mnt/data/pipeline_genome_data/hg38/ataqc/hg38_celltype_compare_subsample.bed.gz"
+        json_dict['atac.roadmap_meta']="/mnt/data/pipeline_genome_data/hg38/ataqc/hg38_dnase_avg_fseq_signal_metadata.txt"
+         
         #dump to output file 
         out_string=json.dumps(json_dict, sort_keys=True, indent=4)
         json_path='/'.join([args.json_dir,row[0]+'.json'])
