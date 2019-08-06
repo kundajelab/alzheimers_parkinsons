@@ -25,7 +25,9 @@ def main():
         out_files[split]=open(args.bed+'.'+str(split),'w')
         out_files[split].write('\t'.join(data.columns)+'\n')
     for index,row in data.iterrows():
-        chrom=row[args.chrom_field]
+        chrom=str(row[args.chrom_field])
+        if 'chr' not in chrom:
+            chrom = 'chr' + chrom
         cur_split=chrom_to_split[chrom]
         out_files[cur_split].write('\t'.join([str(i) for i in row])+'\n')
         
