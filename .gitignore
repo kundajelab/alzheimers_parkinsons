@@ -1,0 +1,12 @@
+*.png
+models/logs
+dl_interpret/*SNP_predictions.txt
+limma_analysis/pr.diff*
+limma_analysis/pr.idr.voom.qnorm.txt
+dl_interpret/predictions/
+dl_interpret/.ipynb_checkpoints/
+limma_analysis/.ipynb_checkpoints/
+limma_analysis/celltype.csv
+limma_analysis/batches.csv
+models/microglia2.sh
+dl_interpret/.ipynb_checkpoints/
