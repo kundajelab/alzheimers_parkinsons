@@ -10,12 +10,15 @@ CUDA_VISIBLE_DEVICES=$2 kerasAC_cross_validate --nonzero_bin_path /mnt/lab_data2
 		    --tensorboard \
             --tasks $1 \
 		    --num_tasks 1 \
+            --splits 7 \
 		    --threads 40 \
 		    --max_queue_size 1000 \
 		    --init_weights /mnt/lab_data3/soumyak/adpd/deeplearning/encode-roadmap.dnase_tf-chip.batch_256.params.npz \
 		    --patience 10 \
 		    --patience_lr 3 \
             --assembly hg38 \
+            --var_encoding freq \
+            --vcf_file $3 \
             --chromsizes /mnt/data/annotations/by_release/hg38/hg38.chrom.sizes \
 		    --ref_fasta /mnt/data/annotations/by_release/hg38/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta \
 		    --performance_metrics_regression_file /mnt/lab_data3/soumyak/adpd/deeplearning/predictions/regression/mean/performance/$1.perfs \
