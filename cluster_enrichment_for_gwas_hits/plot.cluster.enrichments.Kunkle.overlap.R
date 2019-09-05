@@ -1,0 +1,65 @@
+rm(list=ls())
+library(ggplot2)
+cols=c("#FF0000",
+            "#FFFF00",
+            "#00EAFF",
+            "#AA00FF",
+            "#FF7F00",
+            "#BFFF00",
+            "#0095FF",
+            "#FF00AA",
+            "#FFD400",
+            "#6AFF00",
+            "#0040FF",
+            "#EDB9B9",
+            "#B9D7E9",
+            "#E7E9B9",
+            "#DCB9ED",
+            "#B9EDE0",
+            "#8F2323",
+            "#23628F",
+            "#8F6A23",
+            "#6B238F",
+            "#4F8F23",
+            "#000000",
+            "#737373",
+            "#CCCCCC")
+
+data=read.table("cluster.enrichments.Kunkle.overlap.txt",header=TRUE,sep='\t')
+data$Cluster=factor(data$Cluster,levels=c("Cluster1",
+                                          "Cluster2",
+                                          "Cluster3",
+                                          "Cluster4",
+                                          "Cluster5",
+                                          "Cluster6",
+                                          "Cluster7",
+                                          "Cluster8",
+                                          "Cluster9",
+                                          "Cluster10",
+                                          "Cluster11",
+                                          "Cluster12",
+                                          "Cluster13",
+                                          "Cluster14",
+                                          "Cluster15",
+                                          "Cluster16",
+                                          "Cluster17",
+                                          "Cluster18",
+                                          "Cluster19",
+                                          "Cluster20",
+                                          "Cluster21",
+                                          "Cluster22",
+                                          "Cluster23",
+                                          "Cluster24"))
+
+ggplot(data=data,
+       aes(x=data$Vcfbin,
+           y=data$Fold,
+           group=data$Cluster,
+           color=data$Cluster))+
+  geom_line(width=2)+
+  scale_x_reverse()+
+  scale_color_manual(name="Cluster",values=cols)+
+  xlab("log p-value")+
+  ylab("Fold Enrichment")+
+  ggtitle("Kunkle 2019 GWAS enrichments, Overlap Peaks")+
+  theme_bw(20)
