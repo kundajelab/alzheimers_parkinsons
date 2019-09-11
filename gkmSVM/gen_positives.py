@@ -42,6 +42,8 @@ for cluster in clusters:
             seq = ref.fetch(chrom,start,end)
             if 'N' in seq.upper():
                 continue
+            if 'Y' in seq.upper():
+                continue
             if chrom in test_chroms:
                 test_bed.write('\t'.join([chrom, str(start), str(end), str(row[3]), str(row[4])])+'\n')
                 test_fasta.write('>' + str(test_counter) + '\n')

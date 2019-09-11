@@ -18,3 +18,4 @@ models/microglia_old1.sh
 models/microglia_old2.sh
 models/microglia_new.sh
 models/microglia_noupsample.sh
+gkmSVM/__pycache__/viz_sequence.cpython-37.pyc

@@ -7,12 +7,14 @@ def main(args):
     if args[1] == 'all':
         for split in range(10):
             chunk(args[0], str(split))
-            setup_pool(args[0], str(split))
+    else:
+        chunk(args[0], args[1])
+    setup_pool(args[0], args[1])
+    if args[1] == 'all':
+        for split in range(10):
             ref,alt = concat(args[0], str(split))
             to_file(args[0], str(split), ref, alt)
     else:
-        chunk(args[0], args[1])
-        setup_pool(args[0], args[1])
         ref,alt = concat(args[0], args[1])
         to_file(args[0], args[1], ref, alt)
 
@@ -43,16 +45,28 @@ def chunk(cluster, fold):
 
 
 def setup_pool(cluster, fold):
-    ref_dir_in = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+fold+'/explain/input/ref/'
-    alt_dir_in = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+fold+'/explain/input/alt/'
-    model = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+fold+'/train/train.output.model.txt'
-    ref_dir_out = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+fold+'/explain/output/ref/'
-    alt_dir_out = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+fold+'/explain/output/alt/'
     pool_inputs = []
-    for infile in os.listdir(ref_dir_in):
-        pool_inputs.append((ref_dir_in + infile, model, ref_dir_out + 'output_' + infile.split('_')[1]))
-    for infile in os.listdir(alt_dir_in):
-        pool_inputs.append((alt_dir_in + infile, model, alt_dir_out + 'output_' + infile.split('_')[1]))
+    if fold == 'all':
+        for split in range(10):
+            ref_dir_in = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+str(split)+'/explain/input/ref/'
+            alt_dir_in = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+str(split)+'/explain/input/alt/'
+            model = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+str(split)+'/train/train.output.model.txt'
+            ref_dir_out = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+str(split)+'/explain/output/ref/'
+            alt_dir_out = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+str(split)+'/explain/output/alt/'
+            for infile in os.listdir(ref_dir_in):
+                pool_inputs.append((ref_dir_in + infile, model, ref_dir_out + 'output_' + infile.split('_')[1]))
+            for infile in os.listdir(alt_dir_in):
+                pool_inputs.append((alt_dir_in + infile, model, alt_dir_out + 'output_' + infile.split('_')[1]))
+    else:
+        ref_dir_in = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+fold+'/explain/input/ref/'
+        alt_dir_in = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+fold+'/explain/input/alt/'
+        model = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+fold+'/train/train.output.model.txt'
+        ref_dir_out = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+fold+'/explain/output/ref/'
+        alt_dir_out = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'+fold+'/explain/output/alt/'
+        for infile in os.listdir(ref_dir_in):
+            pool_inputs.append((ref_dir_in + infile, model, ref_dir_out + 'output_' + infile.split('_')[1]))
+        for infile in os.listdir(alt_dir_in):
+            pool_inputs.append((alt_dir_in + infile, model, alt_dir_out + 'output_' + infile.split('_')[1]))
     with ProcessPoolExecutor(max_workers=40) as pool:
         merge=pool.map(run_explain, pool_inputs)
 

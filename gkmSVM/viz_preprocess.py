@@ -50,5 +50,5 @@ def normalize_scores(impscores, hyp_impscores, onehot_data):
     return normed_impscores, normed_hyp_impscores
 
 
-def get_impscores(hyp_impscores, onhot_data):
+def get_impscores(hyp_impscores, onehot_data):
     return [x*y for x,y in zip(hyp_impscores, onehot_data)]

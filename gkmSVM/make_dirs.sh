@@ -9,11 +9,6 @@ do
     do
         echo fold${f}
 
-        rm -r /mnt/lab_data3/soumyak/adpd/gkmSVM/${cluster}/fold${f}/explain/output/ref/importance
-        rm -r /mnt/lab_data3/soumyak/adpd/gkmSVM/${cluster}/fold${f}/explain/output/alt/importance
-        rm -r /mnt/lab_data3/soumyak/adpd/gkmSVM/${cluster}/fold${f}/explain/output/ref/hypothetical
-        rm -r /mnt/lab_data3/soumyak/adpd/gkmSVM/${cluster}/fold${f}/explain/output/alt/hypothetical
-
         #mkdir /mnt/lab_data3/soumyak/adpd/gkmSVM/${cluster}/fold${f}
         #mkdir /mnt/lab_data3/soumyak/adpd/gkmSVM/${cluster}/fold${f}/train
         #mkdir /mnt/lab_data3/soumyak/adpd/gkmSVM/${cluster}/fold${f}/test

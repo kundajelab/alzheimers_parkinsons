@@ -5,16 +5,15 @@ from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
 
 def main(args):
+    setup_pool(args[0], args[1])
     if args[1] == 'all':
         for split in range(10):
-            setup_pool(args[0], str(split))
             get_acc(args[0], str(split))
     else:
-        setup_pool(args[0], args[1])
         get_acc(args[0], args[1])
 
 
-def setup_pool(cluster, fold, mode):
+def setup_pool(cluster, fold):
     basedir = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster'+cluster+'/fold'
     if fold == 'all':
         train_pool = []
@@ -22,14 +21,14 @@ def setup_pool(cluster, fold, mode):
         for split in range(10):
             pos_fasta = basedir + str(split) + '/train/train.final.pos.fasta'
             neg_fasta = basedir + str(split) + '/train/train.final.neg.fasta'
-            output = basedir + str(split) + 'train/train.output'
+            output = basedir + str(split) + '/train/train.output'
             train_pool.append((pos_fasta, neg_fasta, output))
         with ProcessPoolExecutor(max_workers=3) as pool:
             merge=pool.map(train_svm, train_pool)
         for split in range(10):
             pos_fasta = basedir + str(split) + '/test/test.final.pos.fasta'
             neg_fasta = basedir + str(split) + '/test/test.final.neg.fasta'
-            model = basedir + str(split) + 'train/train.output.model.txt'
+            model = basedir + str(split) + '/train/train.output.model.txt'
             pos_output = basedir + str(split) + '/test/test.pos.output'
             neg_output = basedir + str(split) + '/test/test.neg.output'
             test_pool.append((pos_fasta, model, pos_output))
@@ -39,12 +38,12 @@ def setup_pool(cluster, fold, mode):
     else:
         train_svm((basedir + fold + '/train/train.final.pos.fasta',
                    basedir + fold + '/train/train.final.neg.fasta',
-                   basedir + fold + 'train/train.output'))
+                   basedir + fold + '/train/train.output'))
         test_svm((basedir + fold + '/test/test.final.pos.fasta',
-                  basedir + fold + 'train/train.output.model.txt',
+                  basedir + fold + '/train/train.output.model.txt',
                   basedir + fold + '/test/test.pos.output'))
         test_svm((basedir + fold + '/test/test.final.neg.fasta',
-                  basedir + fold + 'train/train.output.model.txt',
+                  basedir + fold + '/train/train.output.model.txt',
                   basedir + fold + '/test/test.neg.output'))
 
 
@@ -72,5 +71,4 @@ def get_acc(cluster, fold):
 if __name__ == "__main__":
     cluster = sys.argv[1]
     fold = sys.argv[2]
-    mode = sys.argv[3]
-    main([cluster, fold, mode])
+    main([cluster, fold])
