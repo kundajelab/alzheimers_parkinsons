@@ -72,7 +72,7 @@ def setup_pool(cluster, fold):
 
 
 def run_explain(inputs):
-    os.system('/users/soumyak/lsgkm/src/gkmexplain ' + inputs[0] + ' ' + inputs[1] + ' ' + inputs[2])
+    os.system('/users/soumyak/lsgkm/src/gkmexplain -m 1 ' + inputs[0] + ' ' + inputs[1] + ' ' + inputs[2])
 
 
 def concat(cluster, fold):
