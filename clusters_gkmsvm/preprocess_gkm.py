@@ -21,7 +21,7 @@ def setup_pool():
 
 def train_preprocess(inputs):
     print('[TRAIN] Cluster: ' + str(inputs[0]) + '; Fold: ' + str(inputs[1]))
-    basedir = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster' + str(inputs[0]) + '/fold' + str(inputs[1]) + '/train/'
+    basedir = '/mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/Cluster' + str(inputs[0]) + '/fold' + str(inputs[1]) + '/train/'
     os.system('cut -f 1,2,3 ' + basedir + 'train.pos.bed | sed -e "s/$/\t1.0/" > ' + basedir + 'train.all.bed')
     os.system("zcat " + basedir + "train.inputs.bed.gz | tail -n +2 | awk '$4 != 1.0' >> " + basedir + "train.all.bed")
     os.system('python /users/soumyak/deeplearning/form_inputs/code/gc_dinuc_balanced/gen_dinucleotide_freqs.py -b ' + basedir + 'train.all.bed --ratio_neg_to_pos 1.0 -o ' + basedir + 'train.gc.txt --ref_fasta /mnt/data/annotations/by_release/hg38/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta --gc')
@@ -39,7 +39,7 @@ def train_preprocess(inputs):
 
 def test_preprocess(inputs):
     print('[TEST] Cluster: ' + str(inputs[0]) + '; Fold: ' + str(inputs[1]))
-    basedir = '/mnt/lab_data3/soumyak/adpd/gkmSVM/Cluster' + str(inputs[0]) + '/fold' + str(inputs[1]) + '/test/'
+    basedir = '/mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/Cluster' + str(inputs[0]) + '/fold' + str(inputs[1]) + '/test/'
     os.system('cut -f 1,2,3 ' + basedir + 'test.pos.bed | sed -e "s/$/\t1.0/" > ' + basedir + 'test.all.bed')
     os.system("zcat " + basedir + "test.inputs.bed.gz | tail -n +2 | awk '$4 != 1.0' >> " + basedir + "test.all.bed")
     os.system('python /users/soumyak/deeplearning/form_inputs/code/gc_dinuc_balanced/gen_dinucleotide_freqs.py -b ' + basedir + 'test.all.bed --ratio_neg_to_pos 1.0 -o ' + basedir + 'test.gc.txt --ref_fasta /mnt/data/annotations/by_release/hg38/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta --gc')
