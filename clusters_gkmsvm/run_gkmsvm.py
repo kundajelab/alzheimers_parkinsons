@@ -5,7 +5,7 @@ from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
 
 def main(args):
-    setup_pool(args[0], args[1])
+    setup_pool(args[0], args[1], args[2])
     if args[1] == 'all':
         for split in range(10):
             get_acc(args[0], str(split))
@@ -13,7 +13,7 @@ def main(args):
         get_acc(args[0], args[1])
 
 
-def setup_pool(cluster, fold):
+def setup_pool(cluster, fold, workers):
     basedir = '/mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/Cluster'+cluster+'/fold'
     if fold == 'all':
         train_pool = []
@@ -23,7 +23,7 @@ def setup_pool(cluster, fold):
             neg_fasta = basedir + str(split) + '/train/train.final.neg.fasta'
             output = basedir + str(split) + '/train/train.output'
             train_pool.append((pos_fasta, neg_fasta, output))
-        with ProcessPoolExecutor(max_workers=3) as pool:
+        with ProcessPoolExecutor(max_workers=workers) as pool:
             merge=pool.map(train_svm, train_pool)
         for split in range(10):
             pos_fasta = basedir + str(split) + '/test/test.final.pos.fasta'
@@ -33,7 +33,7 @@ def setup_pool(cluster, fold):
             neg_output = basedir + str(split) + '/test/test.neg.output'
             test_pool.append((pos_fasta, model, pos_output))
             test_pool.append((neg_fasta, model, neg_output))
-        with ProcessPoolExecutor(max_workers=3) as pool:
+        with ProcessPoolExecutor(max_workers=workers) as pool:
             merge=pool.map(test_svm, test_pool)
     else:
         train_svm((basedir + fold + '/train/train.final.pos.fasta',
@@ -71,4 +71,5 @@ def get_acc(cluster, fold):
 if __name__ == "__main__":
     cluster = sys.argv[1]
     fold = sys.argv[2]
-    main([cluster, fold])
+    workers = int(sys.argv[3])
+    main([cluster, fold, workers])

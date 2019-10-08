@@ -15,16 +15,16 @@ do
         #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/explain
         #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/explain/input/
         #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/explain/output/
-        #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/explain/input/ref
-        #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/explain/input/alt
+        #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/explain/input/major
+        #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/explain/input/minor
         #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/explain/input/dnshuff/
-        #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/explain/output/ref
-        #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/explain/output/alt
+        #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/explain/output/major
+        #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/explain/output/minor
         #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/explain/output/dnshuff/
+        #mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/gwas
+        mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/gwas/idr
+        mkdir /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/gwas/overlap
 
-        #cp /mnt/lab_data3/soumyak/adpd/version1_gkmSVM/${cluster}/fold${f}/train/train.inputs.bed.gz /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/train/train.inputs.bed.gz
-
-        #cp /mnt/lab_data3/soumyak/adpd/version1_gkmSVM/${cluster}/fold${f}/test/test.inputs.bed.gz /mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/${cluster}/fold${f}/test/test.inputs.bed.gz
 
     done
 
