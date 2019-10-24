@@ -52,3 +52,9 @@ def normalize_scores(impscores, hyp_impscores, onehot_data):
 
 def get_impscores(hyp_impscores, onehot_data):
     return [x*y for x,y in zip(hyp_impscores, onehot_data)]
+
+def get_hyp_scores(hyp_file, seqs):
+    return [w[0] for w in zip([
+    np.array([[float(z) for z in y.split(",")]
+                for y in x.rstrip().split("\t")[2].split(";")])
+    for x in open(hyp_file)], seqs) if 'N' not in w[1]]
