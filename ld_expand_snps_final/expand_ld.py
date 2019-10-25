@@ -15,6 +15,7 @@ def main():
     ld_data=tabix.open(args.LD_file)
     print("opened tabixed LD file for reading")
     snps=pd.read_csv(args.snp_pos_bed_file,header=0,sep='\t')
+    print(snps.shape) 
     outf=open(args.outf,'w')
     outf.write('\t'.join(['LD_snp_chrom','LD_snp_0ind_pos','LD_snp_1ind_pos','LD_rs','LD_val'])+'\t'+'\t'.join(snps.columns)+'\n')
     for index,row in snps.iterrows():
