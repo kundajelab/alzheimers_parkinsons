@@ -57,4 +57,4 @@ def get_hyp_scores(hyp_file, seqs):
     return [w[0] for w in zip([
     np.array([[float(z) for z in y.split(",")]
                 for y in x.rstrip().split("\t")[2].split(";")])
-    for x in open(hyp_file)], seqs) if 'N' not in w[1]]
+    for x in open(hyp_file)], seqs)]

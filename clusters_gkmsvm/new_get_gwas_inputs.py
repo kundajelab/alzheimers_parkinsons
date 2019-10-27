@@ -30,7 +30,7 @@ def make_fasta(snps, cluster):
         minor = row['minor']
         effect = row['effect']
         noneffect = row['noneffect']
-        if (effect == 'NAN') or (noneffect == 'NAN'):
+        if (effect == 'NAN' or effect == 'I' or effect == 'D') or (noneffect == 'NAN' or noneffect == 'I' or noneffect == 'D'):
             if (major != '.') and (minor.split(',')[0] != '.'):
                 effect = minor.split(',')[0]
                 noneffect = major
