@@ -18,6 +18,5 @@ models/microglia_old1.sh
 models/microglia_old2.sh
 models/microglia_new.sh
 models/microglia_noupsample.sh
-clusters_gkmsvm/__pycache__/viz_sequence.cpython-37.pyc
-clusters_gkmsvm/__pycache__/viz_preprocess.cpython-37.pyc
+clusters_gkmsvm/__pycache__/*
 
