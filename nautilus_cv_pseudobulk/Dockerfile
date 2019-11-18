@@ -13,3 +13,4 @@ RUN python setup.py develop
 WORKDIR /root
 RUN git clone https://github.com/kundajelab/alzheimers_parkinsons.git
 WORKDIR alzheimers_parkinsons/nautilus_cv_pseudobulk
+RUN chmod +x *sh
