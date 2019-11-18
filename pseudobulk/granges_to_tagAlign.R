@@ -16,6 +16,7 @@ print(paste(input_rds,'->',output_tagAlign))
 #read in the RDS data frame
 rds_data=readRDS(input_rds)
 print("loaded RDS df")
+browser() 
 #rds_data
 chroms=seqnames(rds_data)
 #get positive strands

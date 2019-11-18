@@ -1,5 +1,6 @@
 import json 
-import argparse 
+import argparse
+import pdb 
 def parse_args(): 
     parser=argparse.ArgumentParser(description="generate pval & fc bigwig tracks")
     parser.add_argument("--pval_bigwigs")
@@ -89,7 +90,7 @@ def main():
                                 "height":50,
                                 "summeth":1}}
         
-        hammock_dict={"type":"hammock",
+        hammock_dict={"type":"bed",
                       "url":hammock_fname.replace(args.prefix_to_drop_for_oak,args.mitra_prefix),
                       "mode":3,
                       "name":",".join([sample,"HAMMOCK"])}
