@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: adpdpvc-pod
+spec:
+  containers:
+  - name: vol-container
+    image: ubuntu
+    args: ['sleep','36500000']
+    volumeMounts:
+    - mountPath: /data
+      name: adpdpvc2
+  restartPolicy: Never
+  volumes:
+    - name: adpdpvc2
+      persistentVolumeClaim:
+        claimName: adpdpvc2
+          

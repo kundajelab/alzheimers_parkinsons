@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pytorch-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: gpu-container
+        image: anibali/pytorch:cuda-10.0
+        command: ["sleep", "infinity"]
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+            memory: 48Gi
+            cpu: 2
+          requests:
+            memory: 8.0Gi
+            cpu: 1
+            nvidia.com/gpu: 1
+        volumeMounts:
+          - mountPath: /storage-pod
+            name: storage-pod
+    restartPolicy: Never
+    volumes:
+      - name: storage-pod
+        persistentVolumeClaim:
+          claimName: storage-pod
+    initContainers:
+    - name: init-clone-repo
+      image: alpine/git
+      args:
+        - clone
+        - --single-branch
+        - https://gitlab.nautilus.optiputer.net/USERNAME/REPONAME
+        - /opt/repo/REPONAME
+      volumeMounts:
+        - name: storage-pod
+          mountPath: /storage-pod
+  backoffLimit: 5

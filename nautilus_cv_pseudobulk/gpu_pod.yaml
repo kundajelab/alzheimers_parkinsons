@@ -1,0 +1,33 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: gpu-pod
+  namespace: annashch
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: gpu-container
+    spec:
+      containers:
+        - name: gpu-container
+          image: tensorflow/tensorflow:1.14.0-gpu-py3
+          args: ["sleep","36500000"]
+          resources:
+            limits:
+              memory: 8Gi
+              cpu: 2
+              nvidia.com/gpu: 1
+            requests:
+              memory: 8Gi
+              cpu: 2
+              nvidia.com/gpu: 1     
+          volumeMounts:
+            - mountPath: /data
+              name: adpdpvc
+      volumes:
+        - name: adpdpvc
+          persistentVolumeClaim:
+            claimName: adpdpvc
+
