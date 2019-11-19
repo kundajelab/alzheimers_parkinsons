@@ -1,40 +1,30 @@
 apiVersion: batch/v1
 kind: Job
-metadata:
-  name: pytorch-job
-spec:
-  template:
-    spec:
-      containers:
-      - name: gpu-container
-        image: anibali/pytorch:cuda-10.0
-        command: ["sleep", "infinity"]
-        resources:
-          limits:
-            nvidia.com/gpu: 1
-            memory: 48Gi
-            cpu: 2
-          requests:
-            memory: 8.0Gi
-            cpu: 1
-            nvidia.com/gpu: 1
-        volumeMounts:
-          - mountPath: /storage-pod
-            name: storage-pod
-    restartPolicy: Never
-    volumes:
-      - name: storage-pod
-        persistentVolumeClaim:
-          claimName: storage-pod
-    initContainers:
-    - name: init-clone-repo
-      image: alpine/git
-      args:
-        - clone
-        - --single-branch
-        - https://gitlab.nautilus.optiputer.net/USERNAME/REPONAME
-        - /opt/repo/REPONAME
+metadata: 
+ name: adpd-regression
+spec: 
+ template: 
+  spec: 
+   containers: 
+    - name: adpd-regressino-container
+      image: kundajelab/adpd_pseudobulk_nautilus:latest
+      command: ["./cross_validate_regression.gc.sh"]
+      args: ["16", "0"]
       volumeMounts:
-        - name: storage-pod
-          mountPath: /storage-pod
-  backoffLimit: 5
+      - name: storage-pod
+        mountPath: /data
+      resources: 
+        limits: 
+          memory: 60Gi
+          cpu: 15
+          nvidia.com/gpu: 1
+        requests: 
+          memory: 50Gi
+          cpu: 10
+          nvidia.com/gpu: 1
+   volumes:
+    - name: storage-pod
+      persistentVolumeClaim:
+        claimName: adpdpvc2
+   restartPolicy: Never
+ backoffLimit: 5
