@@ -1,4 +1,12 @@
 *.png
+*.tsv
+*.gz
+*.great
+*.peak
+*.narrowPeak
+*.svg
+*~
+*.bed
 models/logs
 dl_interpret/*SNP_predictions.txt
 limma_analysis/pr.diff*
