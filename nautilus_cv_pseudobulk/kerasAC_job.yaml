@@ -8,7 +8,7 @@ spec:
    containers: 
     - name: adpd-regressino-container
       image: kundajelab/adpd_pseudobulk_nautilus:latest
-      command: ["./cross_validate_regression.gc.sh"]
+      command: ["bash","/root/alzheimers_parkinsons/nautilus_cv_pseudobulk/cross_validate.regression.gc.sh"]
       args: ["16", "0"]
       volumeMounts:
       - name: storage-pod

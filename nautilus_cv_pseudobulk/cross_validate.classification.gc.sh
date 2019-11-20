@@ -1,6 +1,8 @@
 #!/bin/bash
 CLUSTER=$1
-GPU=$2
+shift
+GPU=$1
+shift
 [ -d /data/outputs/classification/Cluster$CLUSTER ] || mkdir -p /data/outputs/classification/Cluster$CLUSTER
 CUDA_VISIBLE_DEVICES=$GPU kerasAC_cross_validate --index_data_path /data/inputs/Cluster$CLUSTER.classificationlabels.SummitWithin200bpCenter.hdf5 \
 		    --input_data_path seq /data/inputs/gc_hg38_nosmooth.hdf5 \
@@ -27,4 +29,6 @@ CUDA_VISIBLE_DEVICES=$GPU kerasAC_cross_validate --index_data_path /data/inputs/
 		    --predictions_and_labels_hdf5 /data/outputs/classification/Cluster$CLUSTER/predictions.DNASE.$CLUSTER.classificationlabels.withgc \
 		    --performance_metrics_classification_file /data/outputs/classification/Cluster$CLUSTER/performance.DNASE.$CLUSTER.classificationlabels.withgc \
 		    --tasks Cluster$CLUSTER gc_fract \
-		    --index_tasks Cluster$CLUSTER
+		    --index_tasks Cluster$CLUSTER \
+		    --splits "$@"
+
