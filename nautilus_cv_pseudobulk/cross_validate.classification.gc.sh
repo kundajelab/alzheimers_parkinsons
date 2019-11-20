@@ -13,7 +13,7 @@ CUDA_VISIBLE_DEVICES=$GPU kerasAC_cross_validate --index_data_path /data/inputs/
 		    --upsample_ratio_list_eval 0.98 \
 		    --num_inputs 2 \
 		    --num_outputs 1 \
-		    --model_hdf5 /data/ouptuts/classification/Cluster$CLUSTER/DNASE.$CLUSTER.classificationlabels.withgc \
+		    --model_hdf5 /data/outputs/classification/Cluster$CLUSTER/DNASE.$CLUSTER.classificationlabels.withgc \
 		    --ref_fasta /data/inputs/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta \
 		    --batch_size 200 \
 		    --architecture_spec functional_basset_classification_gc_corrected \

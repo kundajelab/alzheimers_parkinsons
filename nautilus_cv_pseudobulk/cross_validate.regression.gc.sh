@@ -26,7 +26,7 @@ CUDA_VISIBLE_DEVICES=$GPU kerasAC_cross_validate --index_data_path /data/inputs/
 		    --patience 1 \
 		    --patience_lr 2 \
 		    --expand_dims \
-		    --predictions_and_labels_hdf5 /data/ouptputs/regression/Cluster$CLUSTER/predictions.DNASE.$CLUSTER.regressionlabels.withgc \
+		    --predictions_and_labels_hdf5 /data/outputs/regression/Cluster$CLUSTER/predictions.DNASE.$CLUSTER.regressionlabels.withgc \
 		    --performance_metrics_regression_file /data/outputs/regression/Cluster$CLUSTER/performance.DNASE.$CLUSTER.regressionlabels.withgc \
 		    --tasks Cluster$CLUSTER gc_fract \
 		    --index_tasks Cluster$CLUSTER \
