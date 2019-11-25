@@ -4,7 +4,7 @@
 library(GenomicRanges)
 library(BiocGenerics)
 library(parallel)
-
+library(dplyr)
 
 
 args = commandArgs(trailingOnly=TRUE)
@@ -42,7 +42,8 @@ print("deleted rds object")
 names(pos_df)=c('chrom','start','end','seq','score','strand')
 names(neg_df)=c('chrom','start','end','seq','score','strand')
 df=rbind(pos_df,neg_df) 
-print("concatenated positive and negative strands") 
+print("concatenated positive and negative strands")
+df=mutate_if(df,is.numeric,as.integer)
 #save to tagAlign, gzipped
 gz_file=gzfile(output_tagAlign,'w')
 print("opened output file")
