@@ -31,14 +31,19 @@ def main():
                 dist_dict[cur_snp][cluster]="NA"
             else:
                 #get the summit distance
+                print(entry[5])
+                print(entry[13])
                 summit_pos=int(entry[5])+int(entry[13])
                 snp_pos=int(entry[1])
                 dist=snp_pos-summit_pos
-                dist_dict[cur_snp][cluster]=dist
+                if cluster not in dist_dict[cur_snp]:
+                    dist_dict[cur_snp][cluster]=dist
+                elif abs(dist)<abs(dist_dict[cur_snp][cluster]):
+                    dist_dict[cur_snp][cluster]=dist
     print(dist_dict)
     outf=open(args.outf,'w')
     clusters=list(range(1,args.nclusters+1))
-    outf.write('snp\t'+'\t'.join([str(i) for i in clusters])+'\n')
+    outf.write('snp\t'+'\t'.join(['Cluster'+str(i) for i in clusters])+'\n')
     for snp in dist_dict:
         outf.write(snp)
         for cluster in clusters:
