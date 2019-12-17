@@ -1,0 +1,3 @@
+[submodule "alzheimers-parkinsons-colocalization"]
+	path = alzheimers-parkinsons-colocalization
+	url = https://github.com/mikegloudemans/alzheimers-parkinsons-colocalization.git
