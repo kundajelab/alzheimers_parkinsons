@@ -6,10 +6,10 @@ spec:
  template: 
   spec: 
    containers: 
-    - name: adpd-regressino-container
+    - name: adpd-regression-container
       image: kundajelab/adpd_pseudobulk_nautilus:latest
-      command: ["bash","/root/alzheimers_parkinsons/nautilus_cv_pseudobulk/cross_validate.regression.gc.sh"]
-      args: ["16", "0"]
+      command: ["bash","/root/alzheimers_parkinsons/nautilus_cv_pseudobulk/cross_validate.classification.gc.sh"]
+      args: ["4", "0", "4","5","6"]
       volumeMounts:
       - name: storage-pod
         mountPath: /data
@@ -27,4 +27,4 @@ spec:
       persistentVolumeClaim:
         claimName: adpdpvc2
    restartPolicy: Never
- backoffLimit: 5
+ backoffLimit: 1
