@@ -1,11 +1,10 @@
-# Single-cell epigenomic identification of inherited risk loci in Alzheimer’s and
-Parkinson’s disease
+# Single-cell epigenomic identification of inherited risk loci in Alzheimer’s and Parkinson’s disease
 
 Collaboration with Montine, Chang, Kundaje, and Montgomery labs on Alzheimers / Parkinson's ATAC-seq dat analysis
 
 
 ## Bulk ATAC-seq data processing / peak calling ##
-
+[scripts](bulk_atac_seq_preprocessing)
 
 ## Differential accessibility analysis with DESeq2 and limma voom ##
 
@@ -18,7 +17,7 @@ Collaboration with Montine, Chang, Kundaje, and Montgomery labs on Alzheimers / 
 
 
 ## Colocalization analysis
-[scripts] (https://github.com/mikegloudemans/alzheimers-parkinsons-colocalization/tree/29e228c1cdd68f1fd10ff84bea26b95e4faac7ba)
+[scripts](https://github.com/mikegloudemans/alzheimers-parkinsons-colocalization/tree/29e228c1cdd68f1fd10ff84bea26b95e4faac7ba)
 
 
 ## SVM model training ##
