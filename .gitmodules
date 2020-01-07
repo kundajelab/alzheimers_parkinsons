@@ -1,6 +1,6 @@
 [submodule "alzheimers-parkinsons-colocalization"]
 	path = alzheimers-parkinsons-colocalization
 	url = https://github.com/mikegloudemans/alzheimers-parkinsons-colocalization.git
-[submodule "LDSC_Corces_etal_LDSC"]
-	path = LDSC_Corces_etal_LDSC
-	url = https://github.com/lfresard/LDSC_Corces_etal_LDSC.git
+[submodule "LDSC_Corces_etal_ADPD"]
+	path = LDSC_Corces_etal_ADPD
+	url = https://github.com/lfresard/LDSC_Corces_etal_ADPD.git
