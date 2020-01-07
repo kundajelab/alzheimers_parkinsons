@@ -1,0 +1,3 @@
+python ~/anna_utils/io/merge_tsv_to_excel.py --input_f sig.snps.classification.GradSignalRatio.txt sig.snps.classification.GradTotalSignal.txt sig.snps.classification.ISMSignalRatio.txt sig.snps.classification.ISMTotalSignal.txt sig.snps.regression.GradSignalRatio.txt sig.snps.regression.GradTotalSignal.txt sig.snps.regression.ISMSignalRatio.txt sig.snps.regression.ISMTotalSignal.txt sig.snps.metric.tally.txt \
+       --sheet_names class.GradSignalRatio class.GradTotalSignal class.ISMSignalRatio class.ISMTotalSignal reg.GradSignalRatio reg.GradTotalSignal reg.ISMSignalRatio ism.TotalSignal tallly \
+       --outf SigSNP_NN_Interpretation_Summaries.xlsx
