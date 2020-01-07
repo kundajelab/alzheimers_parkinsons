@@ -1,5 +1,5 @@
 import sys
-import new_run_explain
+import run_gkmexplain
 
 
 def main(args):
