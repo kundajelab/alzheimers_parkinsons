@@ -1,10 +1,10 @@
 # Single-cell epigenomic identification of inherited risk loci in Alzheimer’s and Parkinson’s disease
+https://www.biorxiv.org/content/10.1101/2020.01.06.896159v1
 
-Collaboration with Montine, Chang, Kundaje, and Montgomery labs on Alzheimers / Parkinson's ATAC-seq dat analysis
 
 
 ## Bulk ATAC-seq data processing / peak calling ##
-[scripts](bulk_atac_seq_preprocessing)
+[scripts](https://github.com/kundajelab/alzheimers_parkinsons/tree/master/bulk_atacseq_preprocessing)
 
 ## Differential accessibility analysis with DESeq2 and limma voom ##
 
