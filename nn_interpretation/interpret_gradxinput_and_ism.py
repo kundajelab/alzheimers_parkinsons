@@ -73,6 +73,7 @@ def get_all_ism(gen,model,args):
 
 def main():
     args=parse_args()
+    print(args) 
     #create snp generators
 
     ref_gen=SNPGenerator(bed_path=args.bed_path,
