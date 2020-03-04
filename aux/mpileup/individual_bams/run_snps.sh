@@ -1,6 +1,3 @@
 #!/bin/bash
-
-module load biology
-module load bcftools/1.8
-
-bcftools call -c -A -v -O b $1
+#bcftools call -c -A -v -O b -o $2 $1
+bcftools index $2

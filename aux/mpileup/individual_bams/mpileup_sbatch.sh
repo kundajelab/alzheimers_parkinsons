@@ -2,9 +2,9 @@
 module load samtools
 ref=/home/groups/akundaje/annashch/alzheimers_parkinsons/aux/mpileup/individual_bams/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta
 prefix=/oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/
-bcf_pileup_prefix=/oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/mpileup/individual_bams/bcf_snps
+bcf_pileup_prefix=/oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/mpileup/individual_bams/mpileup_output
 numfiles=`cat $prefix/bams.txt| wc -l`
-for i in `seq 1 $numfiles`
+for i in 192 248 400 #`seq 1 $numfiles`
 do
     cur_bam=`head -n $i $prefix/bams.txt | tail -n1` 
     echo $cur_bam 

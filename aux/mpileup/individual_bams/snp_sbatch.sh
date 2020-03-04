@@ -1,8 +1,16 @@
 #!/bin/bash
-
-for file in /oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/mpileup/output/*; do
-    sbatch --partition akundaje --mem=30G -o /oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/mpileup/snps/${file:76:12}.snps.vcf.gz \
-    -e /oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/mpileup/log/${file:76:12}.snps.e \
-    -n 1 --ntasks-per-node=1 --job-name=${file:76:12} --time=48:00:00 --cpus-per-task=2 \
-    run_snps.sh $file
+module load biology
+module load bcftools
+mpileups=/oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/mpileup/individual_bams/mpileup_output/mpileups.txt
+numfiles=`cat $mpileups| wc -l`
+outdir=/oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/mpileup/individual_bams/bcf_snps
+logdir=/oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/mpileup/individual_bams/logs
+for i in `seq 1 $numfiles`
+do
+    cur_mpileup=`head -n $i $mpileups | tail -n1`
+    echo $cur_mpileup
+    cur_basename=`basename $cur_mpileup`
+    outf=$outdir/$cur_basename
+    echo $outf
+    sbatch -J bcf.call.$i -o $logdir/$i.o -e $logdir/$i.e -p akundaje,euan,owners,normal --mem=10G --time=300 run_snps.sh $cur_mpileup $outf
 done
