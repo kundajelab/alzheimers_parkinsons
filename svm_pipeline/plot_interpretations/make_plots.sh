@@ -1,14 +1,12 @@
 #!/bin/bash
-#task_order: dnase_c dnase_v sw480 hct116 colo205 
-gkmexplain_prefix=/srv/scratch/annashch/gecco/gkmexplain/score_summary_and_significance/
-deepshap_prefix=/srv/scratch/annashch/gecco/interpret_cnn/deepshap
-outf_prefix=/srv/scratch/annashch/gecco/plots
+gkmexplain_prefix=/oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/dopa_neurons_cluster_10/gkmexplain/outputs_from_gkmexplain/gkmexplain.
+outf_prefix=/oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/dopa_neurons_cluster_10/gkmexplain_plots
 python make_plots.py --snpinfo toplot.txt \
-       --gkmexplain_pickle_prefix $gkmexplain_prefix \
-       --gkmexplain_pickle_suffix .gkmexplain.aggregate.txt.intermediate.p \
-       --deepshap_pickle_classification_prefix $deepshap_prefix/deepshap.classification. \
-       --deepshap_pickle_regression_prefix $deepshap_prefix/deepshap.regression. \
+       --gkmexplain_prefix $gkmexplain_prefix \
+       --gkmexplain_suffix .txt \
+       --fold 0 \
        --outf_prefix $outf_prefix \
+       --flank 500 \
        --plot_start_base 400 \
        --plot_end_base 600 \
        --snp_pos 501
