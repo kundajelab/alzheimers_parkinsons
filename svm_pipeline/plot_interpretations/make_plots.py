@@ -1,4 +1,5 @@
 import argparse
+import pdb 
 import pysam 
 import numpy as np
 import pandas as pd
@@ -153,7 +154,7 @@ def plot_wrapper(rsid,fold,effect_allele,effect_vals,effect_seq,noneffect_allele
 
     effect_track=effect_vals*effect_seq
     noneffect_track=noneffect_vals*noneffect_seq
-    delta_track=(effect_vals-noneffect_vals)*(effect_seq-noneffect_seq)
+    delta_track=effect_track-noneffect_track
     png_title=args.outf_prefix+'/'+rsid+'.'+str(fold)+'.png'
     
     toplot_tracks=[effect_track,

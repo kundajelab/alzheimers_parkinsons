@@ -1,179 +1,193 @@
 import argparse
-import pandas as pd
+import pdb 
+import pysam 
 import numpy as np
-import pickle
+import pandas as pd
 from dragonn.vis import *
-from kerasAC.splits import * 
+from kerasAC.splits import *
+import math
+from math import floor
 import pdb
+ltrdict = {'a':[1,0,0,0],
+           'c':[0,1,0,0],
+           'g':[0,0,1,0],
+           't':[0,0,0,1],
+           'n':[0,0,0,0],
+           'A':[1,0,0,0],
+           'C':[0,1,0,0],
+           'G':[0,0,1,0],
+           'T':[0,0,0,1],
+           'N':[0,0,0,0]}
+
 
 def parse_args():
     parser=argparse.ArgumentParser()
+    parser.add_argument("--ref_fasta",default="/mnt/data/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta")
     parser.add_argument("--snpinfo")
-    parser.add_argument("--tasks",nargs="+")
     parser.add_argument("--gkmexplain_prefix")
-    parser.add_argument("--gkmexplain_suffix")    
-    parser.add_argument("--deepshap_pickle_classification_prefix")
-    parser.add_argument("--deepshap_pickle_regression_prefix")
+    parser.add_argument("--gkmexplain_suffix")
+    parser.add_argument("--flank",type=int,default=500) 
     parser.add_argument("--outf_prefix")
     parser.add_argument("--plot_start_base",type=int,default=450)
     parser.add_argument("--plot_end_base",type=int,default=550)
     parser.add_argument("--snp_pos",type=int,default=501)    
     return parser.parse_args()
 
-def plot_seq_importance(title,tracks,labels,ylim,xlim,snp_pos, heatmaps, figsize=(20,15)):
+def plot_seq_importance(outf,tracks,labels,ylim,xlim,snp_pos, heatmap_indices=None, figsize=(50, 10)):
     font = {'family' : 'normal',
             'weight' : 'bold',
-            'size'   : 8}
+            'size'   : 10}
     matplotlib.rc('font', **font)
-    cols=len(tracks[0])
-    rows=len(tracks)
-    f,axes=plt.subplots(rows, cols,dpi=60,figsize=figsize)
+    num_plots=len(tracks)
+    f,axes=plt.subplots(nrows=3,ncols=10,dpi=80,figsize=figsize)
+    show=False
+    seq_len = tracks[0].shape[0]
     hmaps={}
-    for row_index in range(rows):
-        for col_index in range(cols):
-            cur_track=tracks[row_index][col_index]
-            cur_snp_pos=snp_pos[row_index][col_index]
-            cur_ylim=ylim[row_index][col_index]
-            cur_xlim=xlim[row_index][col_index]
-            cur_label=labels[row_index][col_index]
-            vmin=-1*max([abs(cur_ylim[0]),abs(cur_ylim[1])])
-            vmax=max([abs(cur_ylim[0]),abs(cur_ylim[1])])
-            print("row_index:"+str(row_index)+", col_index:"+str(col_index))
-            is_heatmap=heatmaps[row_index][col_index]
-            if is_heatmap is True:
-                extent=[cur_xlim[0],cur_xlim[1],0,400]
-                hmap=axes[row_index,col_index].imshow(cur_track[cur_xlim[0]:cur_xlim[1],:].T,extent=extent,vmin=vmin,vmax=vmax,interpolation='nearest',aspect='auto',cmap='seismic')
-                hmaps[tuple([row_index,col_index])]=hmap
-                axes[row_index,col_index].set_yticks(np.array([100,200,300,400]))
-                axes[row_index,col_index].set_yticklabels(['T','G','C','A'])
-            else: 
-                axes[row_index,col_index]=plot_bases_on_ax(cur_track,axes[row_index,col_index],show_ticks=True)
-                axes[row_index,col_index].set_xlim(cur_xlim) 
-                axes[row_index,col_index].set_ylim(cur_ylim)
-            axes[row_index,col_index].set_title(cur_label)
-            axes[row_index,col_index].axvline(x=cur_snp_pos,color='k',linestyle='--')
-            axes[row_index,col_index].tick_params(
-                axis='x',          # changes apply to the x-axis
-                which='both',      # both major and minor ticks are affected
-                bottom=False,      # ticks along the bottom edge are off
-                top=False,         # ticks along the top edge are off
-                labelbottom=False) # labels along the bottom edge are off
+    for plot_index in range(num_plots): 
+        cur_track=tracks[plot_index]
+        cur_snp_pos=snp_pos[plot_index]
+        cur_ylim=ylim[plot_index]
+        cur_xlim=xlim[plot_index]
+        vmin=-1*max([abs(cur_ylim[0]),abs(cur_ylim[1])])
+        vmax=max([abs(cur_ylim[0]),abs(cur_ylim[1])])
+        if (heatmap_indices is not None) and (plot_index in heatmap_indices):
+            extent=[cur_xlim[0],cur_xlim[1],0,400]
+            hmap=axes[plot_index].imshow(cur_track[cur_xlim[0]:cur_xlim[1],:].T,extent=extent,vmin=vmin,vmax=vmax,interpolation='nearest',aspect='auto',cmap='seismic')
+            hmaps[plot_index]=hmap
+            axes[plot_index].set_yticks(np.array([100,200,300,400]))
+            axes[plot_index].set_yticklabels(['T','G','C','A'])
+        else:
+            col=int(floor(plot_index/3))
+            row=plot_index%3
+            axes[row][col]=plot_bases_on_ax(cur_track,axes[row][col],show_ticks=True)
+            axes[row][col].set_xlim(cur_xlim) 
+            axes[row][col].set_ylim(cur_ylim)
+        cur_label=labels[plot_index] 
+        axes[row][col].set_title(cur_label)
+        axes[row][col].axvline(x=cur_snp_pos,color='k',linestyle='--')
+        axes[row][col].tick_params(
+            axis='x',          # changes apply to the x-axis
+            which='both',      # both major and minor ticks are affected
+            bottom=False,      # ticks along the bottom edge are off
+            top=False,         # ticks along the top edge are off
+            labelbottom=False) # labels along the bottom edge are off
     for hmap_index in hmaps:
-        plt.colorbar(hmaps[hmap_index],ax=axes[hmap_index[0],hmap_index[1]],orientation='horizontal')
+        plt.colorbar(hmaps[hmap_index],ax=axes[hmap_index],orientation='horizontal')
     plt.subplots_adjust(hspace=0.5)
     plt.tight_layout()
-    plt.savefig(title,format='png',dpi=300)
+    plt.savefig(outf,format='png',dpi=120)
     plt.close() 
     return 
 
+def get_vals_from_gkm_line(seq):
+    return np.asarray([[float(i) for i in i.split(',')] for i in seq.split(';')])
+
+def one_hot_encode(seq):
+    return np.array([ltrdict.get(x,[0,0,0,0]) for x in seq])
+
+
+def get_seq(ref,chrom,pos,allele,flank):
+    seq_prefix=ref.fetch(chrom,int(pos)-flank,int(pos)).upper() 
+    seq_suffix=ref.fetch(chrom,int(pos)+1,int(pos)+flank).upper()
+    #one-hot-encode the seq 
+    return one_hot_encode(seq_prefix+allele.upper()+seq_suffix)
 
 
 def main():
     args=parse_args()
     #load the gkmexplain data
-    snps=open(args.snpinfo,'r').read().strip().split('\n')
-    for line in snps:
-        print(line)
-        snp_info=tuple(line.split('\t'))
-        for task in args.tasks:
-            plot_wrapper(snp_info,task,args)
-    
-def plot_wrapper(snp_info,task,args):    
-    rsid=snp_info[-1]
-    all_toplot_tracks=[]
-    all_ylim=[]
-    all_xlim=[]
-    all_toplot_labels=[]
-    all_snp_pos=[]
-    all_heatmaps=[]    
+    snps=pd.read_csv(args.snpinfo,header=0,sep='\t')
+    toplot=snps['rsid'].tolist()
+    toplot_dict={}
+    for snp in toplot:
+        toplot_dict[snp]=1
+    print(toplot_dict)
+    snp_to_vals={}
+    ref=pysam.FastaFile(args.ref_fasta)
     for fold in range(10):
-        fold=str(fold)
-        gkmexplain_ref=pd.read_csv(args.gkmexplain_prefix+'.ref'+'.'+task+'.'+fold+args.gkmexplain_suffix,sep='\t',header=None)
-        for index,row in gkmexplain_ref.iterrows():
-            label=row[0]
-            if label=='_'.join(snp_info)+'_'+snp_info[2]:
-                gkmexplain_ref=np.asarray([[float(j) for j in i.split(',')] for i in row[2].split(';')])
-                break
-        gkmexplain_alt=pd.read_csv(args.gkmexplain_prefix+'.alt'+'.'+task+'.'+fold+args.gkmexplain_suffix,sep='\t',header=None)
-        for index,row in gkmexplain_alt.iterrows():
-            label=row[0]
-            if label=='_'.join(snp_info)+'_'+snp_info[3]:
-                gkmexplain_alt=np.asarray([[float(j) for j in i.split(',')] for i in row[2].split(';')])
-                break
-        gkmexplain_delta=gkmexplain_alt-gkmexplain_ref
+        noneffect=pd.read_csv(args.gkmexplain_prefix+"noneffect."+str(fold)+args.gkmexplain_suffix,header=None,sep='\t')
+        effect=pd.read_csv(args.gkmexplain_prefix+"effect."+str(fold)+args.gkmexplain_suffix,header=None,sep='\t')
+        print("loaded gkmexplain scores") 
+        for index,row in noneffect.iterrows():
+            cur_snp_info=row[0].split('_')
+            rsid=cur_snp_info[4]
+            if rsid not in toplot_dict:
+                continue
+            chrom=cur_snp_info[0]
+            pos=int(cur_snp_info[1])
+            allele=cur_snp_info[5]
+            vals=get_vals_from_gkm_line(row[2])
+            seq=get_seq(ref,chrom,pos,allele,args.flank)
+            if rsid not in snp_to_vals: 
+                snp_to_vals[rsid]={}
+            if fold not in snp_to_vals[rsid]:
+                snp_to_vals[rsid][fold]={} 
+            snp_to_vals[rsid][fold]['noneffect_vals']=vals
+            snp_to_vals[rsid][fold]['noneffect_allele']=allele
+            snp_to_vals[rsid][fold]['noneffect_seq']=seq
+
+        print("parsed noneffect allele seq + gkmexplain scores")
+        for index,row in effect.iterrows():
+            cur_snp_info=row[0].split('_')
+            rsid=cur_snp_info[4]
+            if rsid not in toplot_dict:
+                continue
+            chrom=cur_snp_info[0]
+            pos=cur_snp_info[1]
+            allele=cur_snp_info[5]
+            vals=get_vals_from_gkm_line(row[2])
+            seq=get_seq(ref,chrom,pos,allele,args.flank)
+            snp_to_vals[rsid][fold]['effect_vals']=vals
+            snp_to_vals[rsid][fold]['effect_allele']=allele
+            snp_to_vals[rsid][fold]['effect_seq']=seq
+        print("parsed effect allele seq + gkmexplain scores")
+
+    for rsid in snp_to_vals:
+        plot_wrapper(rsid,
+                     effect_allele=[snp_to_vals[rsid][i]['effect_allele'] for i in range(10)],
+                     effect_vals=[snp_to_vals[rsid][i]['effect_vals'] for i in range(10)],
+                     effect_seq=[snp_to_vals[rsid][i]['effect_seq'] for i in range(10)],
+                     noneffect_allele=[snp_to_vals[rsid][i]['noneffect_allele'] for i in range(10)],
+                     noneffect_vals=[snp_to_vals[rsid][i]['noneffect_vals'] for i in range(10)],
+                     noneffect_seq=[snp_to_vals[rsid][i]['noneffect_seq'] for i in range(10)],
+                     args=args)
         
-
-        #load deepshap ref classification
-        deepshap_ref_data_class=np.load(args.deepshap_pickle_classification_prefix+str(fold)+'.'+task+'.ref.npz')
-        rsids_ref_class=deepshap_ref_data_class['bed_entries']
-        snp_index=rsids_ref_class.tolist().index(rsid)
-
-        deepshap_ref_class=np.squeeze(deepshap_ref_data_class['interp_scores'][snp_index])
-        deepshap_inputs_ref_class=np.squeeze(deepshap_ref_data_class['inputs_onehot'][snp_index])
-        deepshap_scaled_ref_class=deepshap_ref_class*deepshap_inputs_ref_class
-
-        #load deepshap alt classification
-        deepshap_alt_data_class=np.load(args.deepshap_pickle_classification_prefix+str(fold)+'.'+task+'.alt.npz')
-        rsids_alt_class=deepshap_alt_data_class['bed_entries']
-        assert rsids_alt_class[snp_index]==rsid    
-        deepshap_alt_class=np.squeeze(deepshap_alt_data_class['interp_scores'][snp_index])
-        deepshap_inputs_alt_class=np.squeeze(deepshap_alt_data_class['inputs_onehot'][snp_index])
-        deepshap_scaled_alt_class=deepshap_alt_class*deepshap_inputs_alt_class
-
-        #get deepshap delta track classification
-        deepshap_scaled_delta_class=(deepshap_alt_class - deepshap_ref_class)*(deepshap_inputs_alt_class+deepshap_inputs_ref_class)
-
-        #load deepshap ref regression
-        deepshap_ref_data_reg=np.load(args.deepshap_pickle_regression_prefix+str(fold)+'.'+task+'.ref.npz')
-        rsids_ref_reg=deepshap_ref_data_reg['bed_entries']
-        assert rsids_ref_reg[snp_index]==rsid
-        deepshap_ref_reg=np.squeeze(deepshap_ref_data_reg['interp_scores'][snp_index])
-        deepshap_inputs_ref_reg=np.squeeze(deepshap_ref_data_reg['inputs_onehot'][snp_index])
-        deepshap_scaled_ref_reg=deepshap_ref_reg*deepshap_inputs_ref_reg
-
-        #load deepshap alt regression
-        deepshap_alt_data_reg=np.load(args.deepshap_pickle_regression_prefix+str(fold)+'.'+task+'.alt.npz')
-        rsids_alt_reg=deepshap_alt_data_reg['bed_entries']
-        assert rsids_alt_reg[snp_index]==rsid    
-        deepshap_alt_reg=np.squeeze(deepshap_alt_data_reg['interp_scores'][snp_index])
-        deepshap_inputs_alt_reg=np.squeeze(deepshap_alt_data_reg['inputs_onehot'][snp_index])
-        deepshap_scaled_alt_reg=deepshap_alt_reg*deepshap_inputs_alt_reg
-
-        #get deepshap delta track regression
-        deepshap_scaled_delta_reg=(deepshap_alt_reg - deepshap_ref_reg)*(deepshap_inputs_alt_reg+deepshap_inputs_ref_reg)
-
-        gkmexplain_scaled_delta=gkmexplain_delta*(deepshap_inputs_alt_reg+deepshap_inputs_ref_reg)
+    
+def plot_wrapper(rsid,effect_allele,effect_vals,effect_seq,noneffect_allele,noneffect_vals,noneffect_seq,args):
+    png_title=args.outf_prefix+'/'+rsid+'.allfolds.png'
+    toplot_tracks=[]
+    toplot_labels=[]
+    for i in range(10):
+        effect_track=effect_vals[i]*effect_seq[i]
+        noneffect_track=noneffect_vals[i]*noneffect_seq[i]
+        delta_track=effect_track-noneffect_track
+        toplot_tracks.append(effect_track)
+        toplot_tracks.append(noneffect_track)
+        toplot_tracks.append(delta_track)
+        toplot_labels.append(rsid+' fold '+str(i)+' gkmexplain effect:'+effect_allele[i])
+        toplot_labels.append(rsid+' fold '+str(i)+' gkmexplain noneffect:'+noneffect_allele[i])
+        toplot_labels.append(rsid+' fold '+str(i)+' gkmexplain effect - noneffect:'+ effect_allele[i]+"-"+noneffect_allele[i])
         
-        toplot_tracks=[gkmexplain_scaled_delta,
-                       deepshap_scaled_delta_class,
-                       deepshap_scaled_delta_reg]
-        all_toplot_tracks.append(toplot_tracks)
-        
-        minvals=3*[-.2]
-        maxvals=3*[0.2]
-        
-        ylim=[(minvals[i],maxvals[i]) for i in range(len(toplot_tracks))]
-        xlim=[(args.plot_start_base,args.plot_end_base) for i in range(len(toplot_tracks))]
-        all_ylim.append(ylim)
-        all_xlim.append(xlim)
-        
-        toplot_labels=[rsid+' '+task+' fold:'+str(fold)+' GKMexplain alt - ref',
-                       rsid+' '+task+' fold:'+str(fold)+' DeepSHAP alt - ref class.',
-                       rsid+' '+task+' fold:'+str(fold)+' DeepSHAP alt - ref reg.']
-        all_toplot_labels.append(toplot_labels)
-        
-        snp_pos=[args.snp_pos for i in range(len(toplot_tracks))]
-        all_snp_pos.append(snp_pos)
+    minvals=[]
+    maxvals=[]
+    
+    #gkm y bounds 
+    gkm_min=min([np.amin(i) for i in toplot_tracks])
+    minvals=[gkm_min]*len(toplot_tracks)
+    gkm_max=max([np.amax(i) for i in toplot_tracks])
+    maxvals=[gkm_max]*len(toplot_tracks)
 
-        heatmaps=[False,False,False]
-        all_heatmaps.append(heatmaps)
-    plot_seq_importance(args.outf_prefix+'/'+rsid+'/'+'folds'+'.'+task+'.'+rsid+'.png',
-                        all_toplot_tracks,
-                        all_toplot_labels,
-                        ylim=all_ylim,
-                        xlim=all_xlim,
-                        snp_pos=all_snp_pos,
-                        heatmaps=all_heatmaps)
+    ylim=[(minvals[i],maxvals[i]) for i in range(len(toplot_tracks))]
+    xlim=[(args.plot_start_base,args.plot_end_base) for i in range(len(toplot_tracks))]
+          
+    snp_pos=[args.snp_pos for i in range(len(toplot_tracks))]
+    plot_seq_importance(png_title,
+                        toplot_tracks,
+                        toplot_labels,
+                        ylim=ylim,
+                        xlim=xlim,
+                        snp_pos=snp_pos,
+                        heatmap_indices=None)
     
 if __name__=="__main__":
     main()

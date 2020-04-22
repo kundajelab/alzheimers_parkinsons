@@ -12,6 +12,6 @@ do
 	   --flank 500 \
 	   --plot_start_base 400 \
 	   --plot_end_base 600 \
-	   --snp_pos 501
+	   --snp_pos 501 &
 done
 
