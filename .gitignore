@@ -30,4 +30,4 @@ models/microglia_old2.sh
 models/microglia_new.sh
 models/microglia_noupsample.sh
 clusters_gkmsvm/__pycache__/*
-
+allele_bias/output/*
