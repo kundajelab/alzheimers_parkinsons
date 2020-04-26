@@ -15,7 +15,7 @@ def setup_pool(cluster, fold, workers):
     for shuffle in range(10):
         effect_fasta = basedir + 'shuffled_200bp_fasta/Cluster' + cluster + '/shuf' + str(shuffle) + '.effect.fasta'
         noneffect_fasta = basedir + 'shuffled_200bp_fasta/Cluster' + cluster + '/shuf' + str(shuffle) + '.noneffect.fasta'
-        model = '/mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/Cluster' + cluster + '/fold' + str(fold) + '/train/train.output.model.txt'
+        model = '/oak/stanford/groups/akundaje/projects/alzheimers_parkinsons/svm_models/Cluster' + cluster + '/fold' + str(fold) + '.model.txt'
         effect_output = basedir + 'shuffled_explain_scores/Cluster' + cluster + '/fold' + str(fold) + '.shuf' + str(shuffle) + '.effect.scores'
         noneffect_output = basedir + 'shuffled_explain_scores/Cluster' + cluster + '/fold' + str(fold) + '.shuf' + str(shuffle) + '.noneffect.scores'
         explain_pool.append((effect_fasta, model, effect_output))
