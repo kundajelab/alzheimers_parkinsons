@@ -1,0 +1,3 @@
+generate plink bed file from merged vcf of ADPD samples
+run pca with 5 pc's on common (maf >=0.05) variants on chrom 1
+verify that pc's 1 - 3 correlate w/ ancestry
