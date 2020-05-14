@@ -58,3 +58,8 @@ def get_hyp_scores(hyp_file, seqs):
     np.array([[float(z) for z in y.split(",")]
                 for y in x.rstrip().split("\t")[2].split(";")])
     for x in open(hyp_file)], seqs)]
+
+def get_scores(hyp_file):
+    return [[[float(z) for z in y.split(",")]
+                for y in x.rstrip().split("\t")[2].split(";")]
+    for x in open(hyp_file)]

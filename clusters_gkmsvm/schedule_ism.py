@@ -4,7 +4,7 @@ import run_ism
 
 def main(args):
 
-    for cluster in range(int(args[0]), int(args[1])):
+    for cluster in range(int(args[0]), int(args[1]) + 1):
         run_ism.main([str(cluster), args[2]])
 
 
