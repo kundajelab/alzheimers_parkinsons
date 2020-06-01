@@ -1,0 +1,24 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	create_snps
+	1
+
+[Sat Apr 11 18:47:22 2020]
+rule create_snps:
+    input: 00_create_snps.py
+    jobid: 0
+
+python 00_create_snps.py
+Terminating processes on user request, this might take some time.
+[Sat Apr 11 18:47:50 2020]
+Error in rule create_snps:
+    jobid: 0
+    shell:
+        python 00_create_snps.py
+        (exited with non-zero exit code)
+
+Complete log: /users/eulalio/ad_pd/scripts/.snakemake/log/2020-04-11T184722.934708.snakemake.log

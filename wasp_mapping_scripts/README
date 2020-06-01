@@ -1,0 +1,31 @@
+These scripts run the mapping portion of WASP to measure allelic imbalance. The following files are contained here.
+
+The WASP Git repo can be found here: github.com/bmvdgeijn/WASP
+
+
+run_all.py:
+Runs the full pipeline within this folder.
+
+01_intersect_snps.sh
+Step 1: Finds reads that intersect with the SNPs of interest.
+
+02_remap_bowtie.sh
+Step 2: Remap reads from step 1 to a reference genome after replacing SNP position with alternate alleles.
+
+03_filter_reads.sh
+Step 3: Remove any reads that mapped to multiple positions during step 2.
+
+04_merge_bams.sh
+Step 4: Merge the mapped reads that we kept from remapping with those that did not intersect any SNPs in step 1.
+
+05_filter_duplicate_reads.sh
+Step 5: Filter out duplicate reads, randomly choosing the read to keep.
+
+06_variant_calling.sh
+Step 6: Use mpileup to call variants to produce an input VCF file for asereadcounter.
+
+07_adjust_header.sh
+Step 7: Adjust the header of output BAM files from step 5 so that ASEReadCounter can read them.
+
+08_asereadcounter.sh
+Step 8: Use ASEReadCounter to count the reads mapped to SNPs.
