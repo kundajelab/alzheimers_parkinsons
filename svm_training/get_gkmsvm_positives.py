@@ -1,12 +1,12 @@
 import pandas as pd
 import os
-from kerasAC.splits import *
+from splits import *
 import pysam
 
 splits = range(10)
 
-basedir = '/mnt/lab_data3/soumyak/adpd/clusters_gkmsvm/'
-ref_fasta = '/mnt/data/annotations/by_release/hg38/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta'
+basedir = '/mnt/lab_data3/soumyak/adpd/gkmsvm/'
+ref_fasta = '/mnt/lab_data3/soumyak/refs/hg38/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta'
 ref = pysam.FastaFile(ref_fasta)
 
 clusters = [cluster for cluster in os.listdir(basedir)]

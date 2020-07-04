@@ -8,7 +8,7 @@ def main(args):
 
 
 def get_seqs(bed, fasta):
-    ref_fasta = '/mnt/data/annotations/by_release/hg38/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta'
+    ref_fasta = '/mnt/lab_data3/soumyak/refs/hg38/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta'
     ref = pysam.FastaFile(ref_fasta)
 
     df_bed = pd.read_csv(bed, sep='\t', header=None)
