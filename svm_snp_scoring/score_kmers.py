@@ -4,17 +4,17 @@ from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
 
 def main(args):
-    if not os.path.isdir('/home/soumyak/kmer_scores/Cluster'+args[0]):
-        os.mkdir('/home/soumyak/kmer_scores/Cluster'+args[0])
+    if not os.path.isdir('/mnt/lab_data3/soumyak/adpd/kmer_scores/Cluster'+args[0]):
+        os.mkdir('/mnt/lab_data3/soumyak/adpd/kmer_scores/Cluster'+args[0])
     setup_pool(args[0], int(args[1]))
 
 
 def setup_pool(cluster, workers):
-    basedir = '/home/soumyak/'
+    basedir = '/mnt/lab_data3/soumyak/adpd/'
     test_pool = []
     for fold in range(10):
-        kmers = basedir + 'kmers.txt'
-        model = basedir + 'clusters_gkmsvm/Cluster' + cluster + '/fold' + str(fold) + '/train/train.output.model.txt'
+        kmers = basedir + 'kmer_scores/all-11mers.fa'
+        model = basedir + 'gkmsvm/Cluster' + cluster + '/fold' + str(fold) + '/train/train.output.model.txt'
         kmer_output = basedir + 'kmer_scores/Cluster' + cluster + '/fold' + str(fold) + '.scores'
         test_pool.append((kmers, model, kmer_output))
     with ProcessPoolExecutor(max_workers=workers) as pool:

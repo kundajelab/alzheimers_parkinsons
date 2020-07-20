@@ -15,7 +15,7 @@ def setup_pool(cluster, workers):
     for fold in range(10):
         effect_fasta = basedir + 'ism_inputs/Cluster' + cluster + '.effect.fasta'
         noneffect_fasta = basedir + 'ism_inputs/Cluster' + cluster + '.noneffect.fasta'
-        model = basedir + 'clusters_gkmsvm/Cluster' + cluster + '/fold' + str(fold) + '/train/train.output.model.txt'
+        model = basedir + 'gkmsvm/Cluster' + cluster + '/fold' + str(fold) + '/train/train.output.model.txt'
         effect_output = basedir + 'ism_scores/Cluster' + cluster + '/fold' + str(fold) + '.effect.scores'
         noneffect_output = basedir + 'ism_scores/Cluster' + cluster + '/fold' + str(fold) + '.noneffect.scores'
         test_pool.append((effect_fasta, model, effect_output))

@@ -10,5 +10,5 @@ python get_gkmsvm_positives.py  # Get positive training examples
 
 python get_gkmsvm_negatives.py  # Get negative training examples
 
-python schedule_gkmsvm.py       # Train gkm-SVM models and get accuracy
+python schedule_gkmsvm.py 1 24  # Train gkm-SVM models and get accuracy
 

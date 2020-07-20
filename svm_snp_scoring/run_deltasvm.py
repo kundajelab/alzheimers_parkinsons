@@ -7,7 +7,7 @@ def main(args):
     for i in range(1, 25):
         if not os.path.isdir('/mnt/lab_data3/soumyak/adpd/delta_scores/Cluster'+str(i)):
             os.mkdir('/mnt/lab_data3/soumyak/adpd/delta_scores/Cluster'+str(i))
-        setup_pool(str(i), 50)
+        setup_pool(str(i), 40)
 
 
 def setup_pool(cluster, workers):
