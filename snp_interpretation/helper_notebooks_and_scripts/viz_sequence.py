@@ -133,7 +133,7 @@ def plot_weights_given_ax(ax, array,
         ax.set_xlim(xlim[0], xlim[1])
     ax.set_ylabel(ylabel)
     ax.yaxis.label.set_fontsize(15)
-    ax.axvline(x=500, color='k', linestyle='--')
+    ax.axvline(x=100, color='k', linestyle='--')
     return (min_neg_height-height_padding, max_pos_height+height_padding)
 
 

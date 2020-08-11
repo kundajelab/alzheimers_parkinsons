@@ -2,7 +2,8 @@ import argparse
 from change_negs import *
 import pysam
 import pandas as pd
-import pdb 
+import pdb
+
 def parse_args():
     parser=argparse.ArgumentParser(description="generate dinucleotide frequencies for a bed file")
     parser.add_argument("--bed_path", "-b")
@@ -35,12 +36,12 @@ def get_balanced_negative(args):
         for task in range(numtasks):
             if args.gc==True:
                 sampled_indices=negs_gcmatched_samp(data.iloc[:,task],freqs,args.ratio_neg_to_pos[task],args.outf+'.'+str(task))
-            else: 
+            else:
                 sampled_indices=negs_dinucmatched_samp(data.iloc[:,task],freqs,args.ratio_neg_to_pos[task],args.outf+'.'+str(task))
-            print("generated negatives for task:"+str(task))    
+            print("generated negatives for task:"+str(task))
             filtered=data.iloc[sampled_indices,task]
             filtered.to_csv(args.outf+'.'+str(task),sep='\t',index=True,header=False)
-            
+
 def get_gc_mat(args):
     #open the reference file
     ref=pysam.FastaFile(args.ref_fasta)
@@ -58,8 +59,8 @@ def get_gc_mat(args):
         else:
             gc_fract=(seq.count('G')+seq.count('C'))/float(len(seq))
         outf.write(str(gc_fract)+'\n')
-    
-            
+
+
 def get_dinuc_mat(args):
     #open the reference file
     ref=pysam.FastaFile(args.ref_fasta)
@@ -71,7 +72,7 @@ def get_dinuc_mat(args):
     all_dinucs=['AA','AC','AG','AT','CA','CC','CG','CT','GA','GC','GG','GT','TA','TC','TG','TT']
     for dinuc in all_dinucs:
         freq_dict[dinuc]=dict()
-    cur_entry=0 
+    cur_entry=0
     for entry in bed_entries:
         seq=ref.fetch(entry[0],entry[1],entry[2]).upper()
         for k in freq_dict.keys():
@@ -91,21 +92,20 @@ def get_dinuc_mat(args):
     for i in range(cur_entry):
         fract=[str(freq_dict[d][i]/1000) for d in all_dinucs]
         outf.write('\t'.join(fract)+'\n')
-            
+
 def main():
-    
+
     args=parse_args()
     if args.dinuc_freqs==None:
         #generate and save the dinucleotide frequency matrix
         if args.gc==True:
             get_gc_mat(args)
-        else: 
+        else:
             get_dinuc_mat(args)
     else:
         get_balanced_negative(args)
-        
-        
-    
+
+
 if __name__=="__main__":
     main()
-    
+

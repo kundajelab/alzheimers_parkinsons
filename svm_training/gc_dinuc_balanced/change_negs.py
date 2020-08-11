@@ -12,7 +12,7 @@ From the input label file, keep the positives and replace the negatives in vario
 - Randomly sampled negatives
 - GC matched randomly sampled negatives
 - Dinucleotide shuffled sequences
-- Motif hits 
+- Motif hits
 """
 
 #=====================================================================================================
@@ -164,7 +164,7 @@ def negs_compl_samp(label_arr, score_arr, neg_pos_ratio, compl, out_path, random
 
 
 """
-# DEPRECATED: Locality-sensitive hashing for approximate nearest neighbor search on the 16-dim dinucleotide frequency space. 
+# DEPRECATED: Locality-sensitive hashing for approximate nearest neighbor search on the 16-dim dinucleotide frequency space.
 # This is better with more dimensions, i.e. can be used for k-mer sequences where dimensionality naively scales exponentially in k.
 
 from sklearn.neighbors import LSHForest
@@ -302,7 +302,7 @@ def save_dinucs_bootstrap():
 
 # TODO: Finish implementing flanks complement, add its perf graphs.
 # import eval_utils
-        
+
 if __name__ == "__main__":
     tmprats = [1, 10, 100, 0]
     #tmprats = [0]
@@ -310,7 +310,7 @@ if __name__ == "__main__":
     # save_arrays_negs('negs_dinucmatched', roundstr=roundstr, ratios=[10])
     save_dinucs_bootstrap()
     # save_arrays_negs('negs_flanks', roundstr=roundstr, ratios=tmprats)
-    
+
     allargs = []
     for roundstr in ['train', 'leader', 'final']:
         for fn in ['negs_gcmatched', 'negs_random']:#, 'negs_flanks', 'negs_dhs', 'negs_motif']:

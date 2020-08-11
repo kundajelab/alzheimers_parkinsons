@@ -20,8 +20,8 @@ https://www.biorxiv.org/content/10.1101/2020.01.06.896159v1
 ## SVM model training ##
 [scripts](https://github.com/kundajelab/alzheimers_parkinsons/tree/master/svm_training)
 
-## SNP effect scoring ##
-[scripts](https://github.com/kundajelab/alzheimers_parkinsons/tree/master/snp_scoring)
+## SNP effect scoring with SVMs ##
+[scripts](https://github.com/kundajelab/alzheimers_parkinsons/tree/master/svm_snp_scoring)
 
 ## SNP effect interpretation ##
 [notebooks](https://github.com/kundajelab/alzheimers_parkinsons/tree/master/snp_interpretation)
